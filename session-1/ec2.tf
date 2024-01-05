@@ -8,21 +8,42 @@ resource "aws_instance" "sai" {
     }
 }
 resource "aws_security_group" "roboshop-all" {
-  name        = "roboshop-all-aws"
-  description = "Allow TLS inbound traffic"
-  ingress {
-    description      = "allow all ports"
-    from_port        = 0
-    to_port          = 0
+  name        = var.sg-name
+  description = "Allow TLS inbound 443,80,22 traffic"
+  /*ingress {
+    description      = var.sg-description
+    ports       = [443, 80, 22]
     protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    # ipv6_cidr_blocks = [aws_vpc.main.ipv6_cidr_block]
+    cidr_blocks      = var.cidr_blocks
+    # ipv6_cidr_blocks = [aws_vpc.main.ipv6_cidr_block] */
+  ingress {
+    description = var.sg-description
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = var.cidr_blocks
+  }
+
+  ingress {
+    description = var.sg-description
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = var.cidr_blocks
+  }
+
+  ingress {
+    description = var.sg-description
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.cidr_blocks
   }
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks      = var.cidr_blocks
     # ipv6_cidr_blocks = ["::/0"]
   }
 
