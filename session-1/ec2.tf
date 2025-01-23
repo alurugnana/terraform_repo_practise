@@ -1,6 +1,6 @@
 resource "aws_instance" "sai" {
   ami           = "ami-0a0f1259dd1c90938"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
   vpc_security_group_ids = [aws_security_group.roboshop-all.id]
 
   tags = {
